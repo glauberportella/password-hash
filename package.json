@@ -1,0 +1,17 @@
+{
+  "name": "password-hash",
+  "version": "1.0.0",
+  "description": "Openwall PHPass class port to Node - Wordpress class used to hash passwords.",
+  "main": "password-hash.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "author": "Glauber Portella <glauberportella@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "bcrypt": "^3.0.2",
+    "crypto-js": "^3.1.9-1",
+    "locutus": "^2.0.10",
+    "randbytes": "0.0.1"
+  }
+}

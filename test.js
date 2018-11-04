@@ -11,7 +11,7 @@
  * 
  * Wrap <hash> in single quotes (hash can have $ chars)
  */
-const { PasswordHash, CRYPT_BLOWFISH, CRYPT_EXT_DES } = require('./lib/password-hash');
+const { PasswordHash, CRYPT_BLOWFISH, CRYPT_EXT_DES } = require('./password-hash');
 
 const args = process.argv.slice(2);
 

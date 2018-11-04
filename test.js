@@ -33,11 +33,11 @@ if (storedHash) {
     hasher.HashPassword(password, CRYPT_BLOWFISH)
         .then(hash => console.log('Hash (Blowfish) = ', hash))
         .catch(error => console.error(error));
-    
+
     hasher.HashPassword(password, CRYPT_EXT_DES)
         .then(hash => console.log('Hash (DES) = ', hash))
         .catch(error => console.error(error));
-    
+
     hasher.HashPassword(password)
         .then(hash => console.log('Hash (Private) = ', hash))
         .catch(error => console.error(error));

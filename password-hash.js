@@ -49,18 +49,18 @@ class PasswordHash {
         this.php_major_version = php_major_version || 7;
 
         this.itoa64 = './0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-        
+
         if (iteration_count_log2 < 4 || iteration_count_log2 > 31)
             iteration_count_log2 = 8;
-            
-		this.iteration_count_log2 = iteration_count_log2;
+
+        this.iteration_count_log2 = iteration_count_log2;
 
         this.portable_hashes = portable_hashes;
-        
+
         const mtime = microtime();
         const uniq = uniqid(rand(), true);
 
-		this.random_state = `${mtime}${uniq}`;
+        this.random_state = `${mtime}${uniq}`;
     }
 
     /**
@@ -72,46 +72,46 @@ class PasswordHash {
     get_random_bytes(count) {
         const promise = new Promise((resolve, reject) => {
             let output = '';
-            const randomSource = RandBytes.urandom.getInstance(); 
+            const randomSource = RandBytes.urandom.getInstance();
             randomSource.getRandomBytes(count, function (buff) {
                 resolve(buff.toString('binary'));
             });
         });
         return promise;
     }
-    
+
     encode64(input, count) {
-		let output = '';
+        let output = '';
         let i = 0, value;
         let v;
 
-		do {
+        do {
             value = ord(input.charAt(i++));
             v = value & 0x3F;
-			output = `${output}${this.itoa64.charAt(v)}`;
-			if (i < count) {
+            output = `${output}${this.itoa64.charAt(v)}`;
+            if (i < count) {
                 value |= ord(input.charAt(i)) << 8;
             }
             v = (value >> 6) & 0x3F;
-			output = `${output}${this.itoa64.charAt(v)}`;
-			if (i++ >= count) {
-				break;
+            output = `${output}${this.itoa64.charAt(v)}`;
+            if (i++ >= count) {
+                break;
             }
-			if (i < count) {
+            if (i < count) {
                 value |= ord(input.charAt(i)) << 16;
             }
             v = (value >> 12) & 0x3F;
-			output = `${output}${this.itoa64.charAt(v)}`;
-			if (i++ >= count) {
+            output = `${output}${this.itoa64.charAt(v)}`;
+            if (i++ >= count) {
                 break;
             }
             v = (value >> 18) & 0x3F;
-			output = `${output}${this.itoa64.charAt(v)}`;
-		} while (i < count);
+            output = `${output}${this.itoa64.charAt(v)}`;
+        } while (i < count);
 
-		return output;
+        return output;
     }
-    
+
     gensalt_private(input) {
         let output = '$P$';
 
@@ -120,32 +120,32 @@ class PasswordHash {
         const index = Math.min(this.iteration_count_log2 + inc, 30);
         const char = this.itoa64.charAt(index);
         const encoded = this.encode64(input, 6);
-		output = `${output}${char}`;
-		output = `${output}${encoded}`;
+        output = `${output}${char}`;
+        output = `${output}${encoded}`;
 
-		return output;
+        return output;
     }
-    
+
     crypt_private(password, setting) {
         let output = '*0';
-        
-		if (setting.substr(0, 2) == output)
-			output = '*1';
 
-		const id = setting.substr(0, 3);
-		// We use "$P$", phpBB3 uses "$H$" for the same thing
-		if (id != '$P$' && id != '$H$')
-			return output;
+        if (setting.substr(0, 2) == output)
+            output = '*1';
 
-		const count_log2 = strpos(this.itoa64, setting.charAt(3));
-		if (count_log2 < 7 || count_log2 > 30)
-			return output;
+        const id = setting.substr(0, 3);
+        // We use "$P$", phpBB3 uses "$H$" for the same thing
+        if (id != '$P$' && id != '$H$')
+            return output;
 
-		let count = 1 << count_log2;
+        const count_log2 = strpos(this.itoa64, setting.charAt(3));
+        if (count_log2 < 7 || count_log2 > 30)
+            return output;
 
-		const salt = setting.substr(4, 8);
-		if (salt.length != 8) {
-			return output;
+        let count = 1 << count_log2;
+
+        const salt = setting.substr(4, 8);
+        if (salt.length != 8) {
+            return output;
         }
 
         let hash = crypto.createHash('md5').update(`${salt}${password}`, 'binary').digest('binary');
@@ -153,68 +153,68 @@ class PasswordHash {
             hash = crypto.createHash('md5').update(`${hash}${password}`, 'binary').digest('binary');
         } while (--count);
         output = setting.substr(0, 12);
-		output = `${output}${this.encode64(hash, 16)}`;
+        output = `${output}${this.encode64(hash, 16)}`;
 
-		return output;
+        return output;
     }
-    
+
     gensalt_extended(input) {
-		let count_log2 = Math.min(this.iteration_count_log2 + 8, 24);
-		// This should be odd to not reveal weak DES keys, and the
-		// maximum valid value is (2**24 - 1) which is odd anyway.
-		let count = (1 << count_log2) - 1;
+        let count_log2 = Math.min(this.iteration_count_log2 + 8, 24);
+        // This should be odd to not reveal weak DES keys, and the
+        // maximum valid value is (2**24 - 1) which is odd anyway.
+        let count = (1 << count_log2) - 1;
 
-		let output = '_';
-		output = `${output}${this.itoa64.charAt(count & 0x3F)}`;
-		output = `${output}${this.itoa64.charAt((count >> 6) & 0x3F)}`;
-		output = `${output}${this.itoa64.charAt((count >> 12) & 0x3F)}`;
-		output = `${output}${this.itoa64.charAt((count >> 18) & 0x3F)}`;
+        let output = '_';
+        output = `${output}${this.itoa64.charAt(count & 0x3F)}`;
+        output = `${output}${this.itoa64.charAt((count >> 6) & 0x3F)}`;
+        output = `${output}${this.itoa64.charAt((count >> 12) & 0x3F)}`;
+        output = `${output}${this.itoa64.charAt((count >> 18) & 0x3F)}`;
 
-		output = `${output}${this.encode64(input, 3)}`;
+        output = `${output}${this.encode64(input, 3)}`;
 
-		return output;
+        return output;
     }
-    
+
     gensalt_blowfish(input) {
-		// This one needs to use a different order of characters and a
-		// different encoding scheme from the one in encode64() above.
-		// We care because the last character in our encoded string will
-		// only represent 2 bits.  While two known implementations of
-		// bcrypt will happily accept and correct a salt string which
-		// has the 4 unused bits set to non-zero, we do not want to take
-		// chances and we also do not want to waste an additional byte
-		// of entropy.
-		const itoa64 = './ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        // This one needs to use a different order of characters and a
+        // different encoding scheme from the one in encode64() above.
+        // We care because the last character in our encoded string will
+        // only represent 2 bits.  While two known implementations of
+        // bcrypt will happily accept and correct a salt string which
+        // has the 4 unused bits set to non-zero, we do not want to take
+        // chances and we also do not want to waste an additional byte
+        // of entropy.
+        const itoa64 = './ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
-		let output = '$2a$';
-		output = `${output}${chr(ord('0') + this.iteration_count_log2 / 10)}`;
-		output = `${output}${chr(ord('0') + this.iteration_count_log2 % 10)}`;
-		output = output + '$';
+        let output = '$2a$';
+        output = `${output}${chr(ord('0') + this.iteration_count_log2 / 10)}`;
+        output = `${output}${chr(ord('0') + this.iteration_count_log2 % 10)}`;
+        output = output + '$';
 
-		let i = 0;
-		do {
-			let c1 = ord(input.charAt(i++));
-			output = `${output}${itoa64.charAt(c1 >> 2)}`;
-			c1 = (c1 & 0x03) << 4;
-			if (i >= 16) {
-				output = `${output}${itoa64.charAt(c1)}`;
-				break;
-			}
+        let i = 0;
+        do {
+            let c1 = ord(input.charAt(i++));
+            output = `${output}${itoa64.charAt(c1 >> 2)}`;
+            c1 = (c1 & 0x03) << 4;
+            if (i >= 16) {
+                output = `${output}${itoa64.charAt(c1)}`;
+                break;
+            }
 
-			let c2 = ord(input.charAt(i++));
-			c1 |= c2 >> 4;
-			output = `${output}${itoa64.charAt(c1)}`;
-			c1 = (c2 & 0x0f) << 2;
+            let c2 = ord(input.charAt(i++));
+            c1 |= c2 >> 4;
+            output = `${output}${itoa64.charAt(c1)}`;
+            c1 = (c2 & 0x0f) << 2;
 
-			c2 = ord(input.charAt(i++));
-			c1 |= c2 >> 6;
-			output = `${output}${itoa64.charAt(c1)}`;
-			output = `${output}${itoa64.charAt(c2 & 0x3F)}`;
-		} while (1);
+            c2 = ord(input.charAt(i++));
+            c1 |= c2 >> 6;
+            output = `${output}${itoa64.charAt(c1)}`;
+            output = `${output}${itoa64.charAt(c2 & 0x3F)}`;
+        } while (1);
 
-		return output;
+        return output;
     }
-    
+
     /**
      * @TODO port crypt() PHP function to Javascript
      * 
@@ -226,8 +226,8 @@ class PasswordHash {
         algorithm = algorithm || 0;
 
         if (password.length > 4096) {
-			return '*';
-		}
+            return '*';
+        }
 
         let random = '';
 
@@ -249,23 +249,23 @@ class PasswordHash {
     _hashWithBcrypt(password) {
         return new Promise((resolve, reject) => {
             this.get_random_bytes(16)
-            .then(random => {
-                bcrypt.hash(password, this.gensalt_blowfish(random), (err, hash) => {
-                    if (err) {
-                        reject(err);
-                    } else {
-                        if (hash.length == 60) {
-                            resolve(hash);
+                .then(random => {
+                    bcrypt.hash(password, this.gensalt_blowfish(random), (err, hash) => {
+                        if (err) {
+                            reject(err);
                         } else {
-                            // try with DES
-                            this._hashWithDes(random, password)
-                            .then(hash => resolve(hash))
-                            .catch(error => reject(error));
+                            if (hash.length == 60) {
+                                resolve(hash);
+                            } else {
+                                // try with DES
+                                this._hashWithDes(random, password)
+                                    .then(hash => resolve(hash))
+                                    .catch(error => reject(error));
+                            }
                         }
-                    }
-                });
-            })
-            .catch(error => reject(error));
+                    });
+                })
+                .catch(error => reject(error));
         });
     }
 
@@ -321,7 +321,7 @@ class PasswordHash {
                     .then(random => {
                         let hash =
                             this.crypt_private(password,
-                            this.gensalt_private(random));
+                                this.gensalt_private(random));
                         if (hash.length == 34) {
                             resolve(hash);
                         } else {
@@ -343,18 +343,18 @@ class PasswordHash {
             }
         });
     }
-    
+
     CheckPassword(password, stored_hash) {
-		if ( password.length > 4096 ) {
-			return false;
-		}
+        if (password.length > 4096) {
+            return false;
+        }
 
-		let hash = this.crypt_private(password, stored_hash);
-		if (hash.charAt(0) == '*')
-			hash = cryptoJS.TripleDES.encrypt(password, stored_hash);
+        let hash = this.crypt_private(password, stored_hash);
+        if (hash.charAt(0) == '*')
+            hash = cryptoJS.TripleDES.encrypt(password, stored_hash);
 
-		return hash === stored_hash;
-	}
+        return hash === stored_hash;
+    }
 }
 
 module.exports.CRYPT_BLOWFISH = CRYPT_BLOWFISH;

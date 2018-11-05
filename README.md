@@ -4,6 +4,10 @@ A port of Wordpress wp-includes/class-phpass.php class used to hash passwords.
 
 See original PHP class at [https://www.openwall.com/phpass/].
 
+# Installation
+
+`npm install node-phpass`
+
 # Contributing
 
 Any help on test and improve this class is welcome. Fork the repo and send a PR.

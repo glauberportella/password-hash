@@ -10,7 +10,7 @@ See original PHP class at [https://www.openwall.com/phpass/].
 
 # Contributing
 
-Any help on test and improve this class is welcome. Fork the repo and send a PR.
+Any help on testing and improvements in this class is welcome. Fork the repo and send a PR.
 
 # License
 

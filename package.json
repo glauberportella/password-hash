@@ -1,6 +1,6 @@
 {
   "name": "node-phpass",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Openwall PHPass class port to Node - Wordpress class used to hash passwords.",
   "keywords": [
     "phpass",

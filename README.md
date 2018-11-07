@@ -21,7 +21,7 @@ const len = 8;
 const portable = true;
 // major PHP version, 5 or 7, as it is a port of PHPass PHP class we rely
 // on php version on gensalt_private() method, it is an optional constructor 
-// argument wich defaults to 7
+// argument which defaults to 7
 const phpversion = 7; 
 
 const hasher = new PasswordHash(len, portable, phpversion);
@@ -42,7 +42,7 @@ const len = 8;
 const portable = true;
 // major PHP version, 5 or 7, as it is a port of PHPass PHP class we rely
 // on php version on gensalt_private() method, it is an optional constructor 
-// argument wich defaults to 7
+// argument which defaults to 7
 const phpversion = 7; 
 
 const hasher = new PasswordHash(len, portable, phpversion);

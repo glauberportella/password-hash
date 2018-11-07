@@ -1,8 +1,8 @@
 # Node PasswordHash module
 
-A port of Wordpress wp-includes/class-phpass.php class used to hash passwords.
+A Node.js port of Wordpress `/wp-includes/class-phpass.php` class used to hash passwords.
 
-See original PHP class PHPass at [https://www.openwall.com/phpass/](https://www.openwall.com/phpass/).
+See original PHPass at [https://www.openwall.com/phpass/](https://www.openwall.com/phpass/).
 
 # Installation
 

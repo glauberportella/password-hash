@@ -6,7 +6,7 @@ See original PHPass at [https://www.openwall.com/phpass/](https://www.openwall.c
 
 # Installation
 
-`npm install node-phpass`
+`npm install node-phpass-leo`
 
 # Password hash
 

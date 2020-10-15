@@ -31,7 +31,7 @@
  */
 
 const RandBytes = new require('randbytes');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
 const cryptoJS = require('crypto-js');
 

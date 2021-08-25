@@ -30,7 +30,7 @@
  * IN THE SOFTWARE. 
  */
 
-const RandBytes = new require('randbytes');
+const RandBytes = require('randbytes');
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 const cryptoJS = require('crypto-js');

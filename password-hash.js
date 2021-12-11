@@ -30,8 +30,7 @@
  * IN THE SOFTWARE. 
  */
 
-const RandBytes = require('randbytes');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
 const cryptoJS = require('crypto-js');
 
@@ -64,20 +63,21 @@ class PasswordHash {
     }
 
     /**
-     * Only works on Unix like because use /dev/urandom
-     * 
-     * @param {integer} count 
+     * Get cryptographically strong pseudorandom bytes 
+     *
+     * @param {integer} count
      * @return {Promise}
      */
     get_random_bytes(count) {
-        const promise = new Promise((resolve, reject) => {
-            let output = '';
-            const randomSource = RandBytes.urandom.getInstance();
-            randomSource.getRandomBytes(count, function (buff) {
-                resolve(buff.toString('binary'));
-            });
-        });
-        return promise;
+      return new Promise((resolve, reject) => {
+           crypto.randomBytes(count, function (err, buff) {
+               if (err) {
+                   reject(err);
+               } else {
+                   resolve(buff.toString('binary'));
+               }
+           });
+       });
     }
 
     encode64(input, count) {

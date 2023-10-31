@@ -20,7 +20,7 @@
   },
   "license": "MIT",
   "engines": {
-    "node": "^12"
+    "node": ">=12"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

@@ -1,6 +1,6 @@
 {
-  "name": "node-phpass",
-  "version": "1.0.6",
+  "name": "@coxato/node-phpass",
+  "version": "1.0.7",
   "description": "Openwall PHPass class port to Node - Wordpress class used to hash passwords.",
   "keywords": [
     "phpass",
@@ -13,18 +13,18 @@
     "test": "node test.js"
   },
   "author": "Glauber Portella <glauberportella@gmail.com>",
-  "homepage": "https://github.com/glauberportella/password-hash",
+  "contributors": [
+    "Coxato <github.com/coxato>"
+  ],
+  "homepage": "https://github.com/coxato/password-hash",
   "repository": {
     "type": "git",
-    "url": "https://github.com/glauberportella/password-hash.git"
+    "url": "https://github.com/coxato/password-hash.git"
   },
   "license": "MIT",
-  "engines": {
-    "node": "^12"
-  },
   "dependencies": {
-    "bcryptjs": "^2.4.3",
-    "crypto-js": "^3.1.9-1",
-    "locutus": "^2.0.10"
+    "bcryptjs": "^3.0.2",
+    "crypto-js": "^4.2.0",
+    "locutus": "^2.0.32"
   }
 }

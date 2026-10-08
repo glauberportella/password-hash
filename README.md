@@ -1,4 +1,5 @@
-# Node PasswordHash module
+# Node PasswordHash module (Updated libraries)
+### Original code from [glauberportella/password-hash](https://github.com/glauberportella/password-hash)
 
 A Node.js port of Wordpress `/wp-includes/class-phpass.php` class used to hash passwords.
 
@@ -6,14 +7,16 @@ See original PHPass at [https://www.openwall.com/phpass/](https://www.openwall.c
 
 # Installation
 
-`npm install node-phpass`
+<s>`npm install node-phpass` old libraries</s>
+
+`npm install @coxato/node-phpass` new one, libraries updated
 
 # Password hash
 
 ```js
-const PasswordHash = require('node-phpass').PasswordHash;
-const CRYPT_BLOWFISH = require('node-phpass').CRYPT_BLOWFISH;
-const CRYPT_EXT_DES = require('node-phpass').CRYPT_EXT_DES;
+const PasswordHash = require('@coxato/node-phpass').PasswordHash;
+const CRYPT_BLOWFISH = require('@coxato/node-phpass').CRYPT_BLOWFISH;
+const CRYPT_EXT_DES = require('@coxato/node-phpass').CRYPT_EXT_DES;
 // or
 // const { PasswordHash, CRYPT_BLOWFISH, CRYPT_EXT_DES } = require('node-phpass')
 
@@ -34,7 +37,7 @@ hasher.HashPassword('123456', CRYPT_EXT_DES).then(hash => console.log('DES hash:
 # Verify a hash
 
 ```js
-const PasswordHash = require('node-phpass').PasswordHash;
+const PasswordHash = require('@coxato/node-phpass').PasswordHash;
 // or
 // const { PasswordHash } = require('node-phpass')
 
